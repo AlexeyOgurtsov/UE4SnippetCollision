@@ -90,7 +90,7 @@ public:
 	UFUNCTION(BlueprintPure, Category=Selection)
 	AActor* GetSelectedActor() const
 	{
-		return SelectedActor;
+		return wpSelectedActor.Get();
 	}
 	
 	// ~ ActorDrag Begin
@@ -169,9 +169,10 @@ private:
 	// ~Motion End
 	
 	// ~ Selection Begin
-	/** SelectedActor*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta=(AllowPrivateAccess=true), Category=Selection)
-	AActor* SelectedActor = nullptr;
+	/** wpSelectedActor*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta=(AllowPrivateAccess=true), Category = Selection)
+	TWeakObjectPtr<AActor> wpSelectedActor;
+	
 	
 	// ~ Selection End
 	/** SelectActor*/

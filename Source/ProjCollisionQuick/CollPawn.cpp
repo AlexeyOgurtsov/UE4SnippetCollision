@@ -172,19 +172,26 @@ void ACollPawn::Tick(float DeltaSeconds)
 
 void ACollPawn::UpdateDraggedActor()
 {
-	if( (ActorDragMode == EActorDragMode::On ) && SelectedActor != nullptr)
+	if(wpSelectedActor.Get() == nullptr)
+	{
+		DisableActorDragMode();	
+		return;
+	}
+	AActor* const DraggedActor = wpSelectedActor.Get();
+
+	if( (ActorDragMode == EActorDragMode::On ) )
 	{
 		bool const bSweep = false;
 		FTransform const NewTransform = ActorDragTransform * GetActorTransform();
 		ULogUtilLib::LogTransformC(TEXT("NewActorTransform"), NewTransform);
-		SelectedActor->SetActorTransform(NewTransform, bSweep);
+		DraggedActor->SetActorTransform(NewTransform, bSweep);
 	}
 }
 
 void ACollPawn::SetActorDragMode(EActorDragMode NewDragMode)
 {
 	M_LOGFUNC();
-	if(SelectedActor == nullptr)
+	if(wpSelectedActor.Get() == nullptr)
 	{
 		DisableActorDragMode();
 	}
@@ -211,13 +218,13 @@ void ACollPawn::SetActorDragMode(EActorDragMode NewDragMode)
 void ACollPawn::EnableActorDragMode()
 {
 	M_LOGFUNC();
-	check(SelectedActor);
+	check(wpSelectedActor.Get());
 	M_LOG(TEXT("DragMode: On"));
 	if(ActorDragMode == EActorDragMode::On)
 	{
 		return;
 	}
-	ActorDragTransform = SelectedActor->GetActorTransform() * GetActorTransform().Inverse();
+	ActorDragTransform = wpSelectedActor->GetActorTransform() * GetActorTransform().Inverse();
 	ULogUtilLib::LogTransformC(TEXT("ActorDragTransform"), ActorDragTransform);
 	GetMyPCChecked()->Pawn_DragActorModeChanged();
 }
@@ -236,7 +243,7 @@ void ACollPawn::DisableActorDragMode()
 
 bool ACollPawn::CanDrag() const
 {
-	if(SelectedActor == nullptr)
+	if(wpSelectedActor == nullptr)
 	{
 		M_LOG(TEXT("Cannot drag: selected actor is nullptr"));
 		return false;
@@ -296,7 +303,7 @@ void ACollPawn::SelectByLook_VisibilityChannel()
 
 void ACollPawn::SelectActor(AActor* Actor)
 {
-	SelectedActor = Actor;
+	wpSelectedActor = Actor;
 	GetMyPCChecked()->Pawn_SelectedActorChanged();
 }
 
