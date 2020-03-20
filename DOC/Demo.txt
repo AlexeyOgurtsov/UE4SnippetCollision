@@ -1,0 +1,17 @@
+(Debug1) - ActorCustomAction - NOTHING
+(Debug2) - ActorCustomActionTwo - NOTHING
+(Debug3) - ActorCustomActionThree - NOTHING
+F (Use) - ToggleDrag
+G (UseTwo) - CustomForceActor - (bVelChange = TRUE)
+H (UseThree) - CustomMoveActor - moving actor in look direction WITHOUT sweep
+Left button - (Fire) - SelectByLookCustom
+Right button - (FireTwo) - ForceActor - (bVelChange = FALSE)
+SPACE - (FireThree) - MoveActor - in look direction with SWEEP=TRUE
+0 - (Select 0) - SelectByLookCustom - NOT IMPL
+1 - (Select 1) - SelectByLook_WorldDynamic - SelectByLook ECC_WorldDynamic
+2 - (Select 2) - SelectByLook_WorldStatic - SelectByLook ECC_WorldStatic
+3 - (Select 3) - SelectByLook_Camera - SelectByLook ECC_Camera
+4 - (Select 4) - SelectByLook_VisibilityChannel - SelectByLook ECC_VisibilityChannel
+5 - (Select 5) - SelectByLook_PhysicsBody- SelectByLook ECC_PhysicsBody
+
+8 - Toggle TRACE COMPLEX (On/Off)  By default: Off

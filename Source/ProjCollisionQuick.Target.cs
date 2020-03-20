@@ -8,6 +8,7 @@ public class ProjCollisionQuickTarget : TargetRules
 	public ProjCollisionQuickTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+		DefaultBuildSettings = BuildSettingsVersion.Latest;
 
 		ExtraModuleNames.AddRange( new string[] { "ProjCollisionQuick" } );
 	}

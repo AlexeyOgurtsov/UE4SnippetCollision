@@ -1,9 +1,0 @@
-#pragma once
-
-class ACollPawn;
-class ACollPlayerController;
-class ACollGameMode;
-
-using MyPawnType = ACollPawn;
-using MyPCType = ATCollPlayerController;
-using MyGameModeType = ACollGameMode;
