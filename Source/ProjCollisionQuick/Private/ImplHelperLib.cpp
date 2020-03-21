@@ -1,6 +1,8 @@
 #include "ImplHelperLib.h"
 #include "Components/StaticMeshComponent.h"
+#include "Util/Core/LogUtilLib.h"
 #include "Engine/StaticMesh.h"
+#include "GameFramework/Actor.h"
 
 UMaterialInterface* UImplHelperLib::BlockAllNoCollisionMat = nullptr;
 UMaterialInterface* UImplHelperLib::BlockAllMat = nullptr;
@@ -125,15 +127,15 @@ UMaterialInterface* UImplHelperLib::GetMaterialForCollisionProfile(const FName I
 		return PhysicsActorMat;
 	}
 
-	//else if(InProfile == UCollisionProfile::OverlapAll_ProfileName)
-	//{
-	//	return OverlapAll.Object;
-	//}
-	//
-	//else if(InProfile == UCollisionProfile::OverlapAllDynamic_ProfileName)
-	//{
-	//	return OverlapAllDynamic.Object;
-	//}
+	else if(InProfile == FName(TEXT("OverlapAll")))
+	{
+		return OverlapAllMat;
+	}
+	
+	else if(InProfile == FName(TEXT("OverlapAllDynamic")))
+	{
+		return OverlapAllDynamicMat;
+	}
 
 	checkf(false, TEXT("Unknown profile"));
 	return nullptr;
@@ -182,12 +184,12 @@ void UImplHelperLib::ColorAsDefault(UPrimitiveComponent* const Comp)
 }
 void UImplHelperLib::ColorByCollisionProfile(UPrimitiveComponent* const Comp)
 {
-	if(UStaticMeshComponent* SM = Cast<UStaticMeshComponent>(Comp))
+	M_LOGFUNC();
+	if(Comp)
 	{
-		SetAllUsedMaterialsTo(SM, GetMaterialForCollisionProfile(SM->GetCollisionProfileName()));
-	}
-	else
-	{
-		ColorAsDefault(Comp);
+		M_LOG(TEXT("Component: \"%s\" of class \"%s\""), *Comp->GetName(), *Comp->GetClass()->GetName());
+		const FName CollisionProfileName = Comp->GetCollisionProfileName();
+		M_LOG(TEXT("Profile name: %s"), *CollisionProfileName.ToString());
+		SetAllUsedMaterialsTo(Comp, GetMaterialForCollisionProfile(CollisionProfileName));
 	}
 }
